@@ -17,11 +17,11 @@ def driver():
     driver.quit()
 
 
-#def test_login(driver ):
- #   login_saucedemo(driver)
-  #  assert "/inventory.html" in driver.current_url
- #   titulo = driver.find_element(By.CSS_SELECTOR, 'div.header_secondary_container .title').text
- #   assert titulo == "Products"
+def test_login(driver ):
+    login_saucedemo(driver)
+    assert "/inventory.html" in driver.current_url
+    titulo = driver.find_element(By.CSS_SELECTOR, 'div.header_secondary_container .title').text
+    assert titulo == "Products"
 
     
     #logueo de usuario con username y password
@@ -31,11 +31,13 @@ def driver():
 
     #verificar e titulo de la pagina(Ventanita)
 
-  #def test_catalogo( driver: WebDriver):
-    #login_saucedemo(driver)
+def test_catalogo( driver: WebDriver):
+    login_saucedemo(driver)
 
-    #products = driver.find_elements(By.CLASS_NAME, 'inventory_item')
-    #assert len(products) > 0
+    products = driver.find_elements(By.CLASS_NAME, 'inventory_item')
+    assert len(products) > 0
+
+
 
 def test_carrito( driver: WebDriver ):
     login_saucedemo( driver )
