@@ -31,11 +31,35 @@ def driver():
 
     #verificar e titulo de la pagina(Ventanita)
 
-def test_catalogo( driver: WebDriver):
-    login_saucedemo(driver)
+  #def test_catalogo( driver: WebDriver):
+    #login_saucedemo(driver)
 
+    #products = driver.find_elements(By.CLASS_NAME, 'inventory_item')
+    #assert len(products) > 0
+
+def test_carrito( driver: WebDriver ):
+    login_saucedemo( driver )
     products = driver.find_elements(By.CLASS_NAME, 'inventory_item')
-    assert len(products) > 0
+    total_products = len(products)
+
+    products[0].find_element(By.TAG_NAME, 'button').click()
+
+    badge = driver.find_element(By.CLASS_NAME, 'shopping_cart_badge').text
+    assert badge == '1'
+
+    #OTRA FORMA EVALUANDO MAS ELEMENTOS EN EL CARRITO***********
+    #def test_carrito( driver: WebDriver ):
+    #login_saucedemo( driver )
+    #products = driver.find_elements(By.CLASS_NAME, 'inventory_item')
+    #total_products = len(products)
+
+    #if total_products >= 2:
+    #    products[0].find_element(By.TAG_NAME, 'button').click()
+    #    products[1].find_element(By.TAG_NAME, 'button').click()
+
+    #    badge = driver.find_element(By.CLASS_NAME, 'shopping_cart_badge').text
+    #    assert badge == '2'
+
 
 
 
