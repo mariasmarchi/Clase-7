@@ -1,22 +1,23 @@
 
-selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from utils.helpers import URL, USERNAME, PASSWORD
+from selenium.webdriver.common.by import By
 
 
 
-class PersonalLoginPage:
+class LoginPage:
 
     #USERNAME= 'standard_user'
     #PASSWORD= 'secret_sauce'
-    _INPUT_NAME = 'user-name'
-    _INPUT_PASSWORD = 'password'
-    _LOGIN_BUTTON = 'login-button'
+    _INPUT_NAME = (By.NAME, 'user-name')
+    _INPUT_PASSWORD = (By.NAME, 'password')
+    _LOGIN_BUTTON = (By.NAME, 'login-button')
 
     def __init__(self, driver):
         self.driver = driver
     
-    def oper( self)
+    def open( self):
         self.driver.get(URL)
 
     def Login(self, username = USERNAME, password = PASSWORD):
@@ -34,6 +35,6 @@ class PersonalLoginPage:
 
       
 
-        self.driver.find_element(By.NAME, self._INPUT_PASSWORD).send_keys(password)
-        self.driver.find_element(By.ID, self._LOGIN_BUTTON).click()
+       # self.driver.find_element(By.NAME, self._INPUT_PASSWORD).send_keys(password)
+       # self.driver.find_element(By.ID, self._LOGIN_BUTTON).click()
         
