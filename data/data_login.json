@@ -13,10 +13,5 @@
     "username": "problem_user",
     "password": "secret_sauce", 
     "login_example": true
-  },
-  {
-    "username": "error_user",
-    "password": "secret_sauce", 
-    "login_example": false
   }
 ]
