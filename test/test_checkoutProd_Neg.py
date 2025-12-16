@@ -1,5 +1,5 @@
 import pytest
-from pages.checkout_page import CheckoutPage
+from page.checkout_page import CheckoutPage
 
 #Checkout sin productos (negativo extra)
 @pytest.mark.usefixtures("driver")

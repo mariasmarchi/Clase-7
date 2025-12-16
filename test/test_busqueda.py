@@ -1,14 +1,10 @@
 import pytest
-from pages.home_page import HomePage
-from pages.search_page import SearchPage
+from page.inventory_page import InventoryPage
 
-#busqueda de producto
-@pytest.mark.usefixtures("driver")
 def test_busqueda_producto(driver):
-    home = HomePage(driver)
-    home.ir_a_home()
-    home.buscar_producto("dress")
+    # Abrir la página de inventario
+    inventory_page = InventoryPage(driver)
+    inventory_page.open()
 
-    search = SearchPage(driver)
-    resultados = search.obtener_resultados()
-    assert len(resultados) > 0, "No se encontraron productos en la búsqueda"
+    # Verificar que un producto esperado esté visible
+    assert inventory_page.verificar_producto_visible("Sauce Labs Backpack")

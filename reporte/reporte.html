@@ -2,12 +2,333 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title id="head-title">reporte.html</title>
-      <link href="assets\style.css" rel="stylesheet" type="text/css"/>
+    <title id="head-title">Reporte de pruebas - EntregaSELENIUM</title>
+      <style type="text/css">body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  vertical-align: top;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+#environment ul {
+  margin: 0;
+  padding: 0 20px;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+.col-links__extra {
+  margin-right: 3px;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+#results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+#results-table th,
+#results-table td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  text-align: left;
+}
+#results-table th {
+  font-weight: bold;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.logwrapper {
+  max-height: 230px;
+  overflow-y: scroll;
+  background-color: #e6e6e6;
+}
+.logwrapper.expanded {
+  max-height: none;
+}
+.logwrapper.expanded .logexpander:after {
+  content: "collapse [-]";
+}
+.logwrapper .logexpander {
+  z-index: 1;
+  position: sticky;
+  top: 10px;
+  width: max-content;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin: 10px 0 10px calc(100% - 80px);
+  cursor: pointer;
+  background-color: #e6e6e6;
+}
+.logwrapper .logexpander:after {
+  content: "expand [+]";
+}
+.logwrapper .logexpander:hover {
+  color: #000;
+  border-color: #000;
+}
+.logwrapper .log {
+  min-height: 40px;
+  position: relative;
+  top: -50px;
+  height: calc(100% + 50px);
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  padding: 5px;
+  padding-right: 80px;
+  white-space: pre-wrap;
+}
+
+div.media {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin: 0 5px;
+  overflow: hidden;
+  width: 320px;
+}
+
+.media-container {
+  display: grid;
+  grid-template-columns: 25px auto 25px;
+  align-items: center;
+  flex: 1 1;
+  overflow: hidden;
+  height: 200px;
+}
+
+.media-container--fullscreen {
+  grid-template-columns: 0px auto 0px;
+}
+
+.media-container__nav--right,
+.media-container__nav--left {
+  text-align: center;
+  cursor: pointer;
+}
+
+.media-container__viewport {
+  cursor: pointer;
+  text-align: center;
+  height: inherit;
+}
+.media-container__viewport img,
+.media-container__viewport video {
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+}
+
+.media__name,
+.media__counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex: 0 0 25px;
+  align-items: center;
+}
+
+.collapsible td:not(.col-links) {
+  cursor: pointer;
+}
+.collapsible td:not(.col-links):hover::after {
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.col-result {
+  width: 130px;
+}
+.col-result:hover::after {
+  content: " (hide details)";
+}
+
+.col-result.collapsed:hover::after {
+  content: " (show details)";
+}
+
+#environment-header h2:hover::after {
+  content: " (hide details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#environment-header.collapsed h2:hover::after {
+  content: " (show details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+.sortable.desc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: -12.5px;
+  border: 10px solid #4caf50;
+  border-bottom: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+.sortable.asc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: 12.5px;
+  border: 10px solid #4caf50;
+  border-top: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.hidden, .summary__reload__button.hidden {
+  display: none;
+}
+
+.summary__data {
+  flex: 0 0 550px;
+}
+.summary__reload {
+  flex: 1 1;
+  display: flex;
+  justify-content: center;
+}
+.summary__reload__button {
+  flex: 0 0 300px;
+  display: flex;
+  color: white;
+  font-weight: bold;
+  background-color: #4caf50;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.summary__reload__button:hover {
+  background-color: #46a049;
+}
+.summary__spacer {
+  flex: 0 0 550px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters,
+.collapse {
+  display: flex;
+  align-items: center;
+}
+.filters button,
+.collapse button {
+  color: #999;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.filters button:hover,
+.collapse button:hover {
+  color: #ccc;
+}
+
+.filter__label {
+  margin-right: 10px;
+}
+
+      </style>
+    
   </head>
   <body>
-    <h1 id="title">reporte.html</h1>
-    <p>Report generated on 14-Dec-2025 at 14:31:54 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+    <h1 id="title">Reporte de pruebas - EntregaSELENIUM</h1>
+    <p>Report generated on 15-Dec-2025 at 22:02:38 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
         v4.1.1</p>
     <div id="environment-header">
       <h2>Environment</h2>
@@ -60,8 +381,10 @@
       <div class="summary__data">
         <h2>Summary</h2>
         <div class="additional-summary prefix">
+          Proyecto: EntregaSELENIUM
+          Autor: Maria Smarchi
         </div>
-        <p class="run-count">3 tests took 00:00:18.</p>
+        <p class="run-count">8 tests took 00:00:44.</p>
         <p class="filter">(Un)check the boxes to filter the results.</p>
         <div class="summary__reload">
           <div class="summary__reload__button hidden" onclick="location.reload()">
@@ -71,10 +394,10 @@
         <div class="summary__spacer"></div>
         <div class="controls">
           <div class="filters">
-            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" disabled/>
-            <span class="failed">0 Failed,</span>
-            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" />
-            <span class="passed">3 Passed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" />
+            <span class="failed">8 Failed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" disabled/>
+            <span class="passed">0 Passed,</span>
             <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled/>
             <span class="skipped">0 Skipped,</span>
             <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xfailed" disabled/>
@@ -108,7 +431,7 @@
     </table>
   </body>
   <footer>
-    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.13.7&#34;, &#34;Platform&#34;: &#34;Windows-11-10.0.26100-SP0&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;8.4.2&#34;, &#34;pluggy&#34;: &#34;1.6.0&#34;}, &#34;Plugins&#34;: {&#34;html&#34;: &#34;4.1.1&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;}}, &#34;tests&#34;: {&#34;test/test_saucedemo.py::test_login&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;test/test_saucedemo.py::test_login&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_saucedemo.py::test_login&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;test/test_saucedemo.py::test_catalogo&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;test/test_saucedemo.py::test_catalogo&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_saucedemo.py::test_catalogo&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;test/test_saucedemo.py::test_carrito&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;test/test_saucedemo.py::test_carrito&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_saucedemo.py::test_carrito&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;reporte.html&#34;}"></div>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.13.7&#34;, &#34;Platform&#34;: &#34;Windows-11-10.0.26100-SP0&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;8.4.2&#34;, &#34;pluggy&#34;: &#34;1.6.0&#34;}, &#34;Plugins&#34;: {&#34;Faker&#34;: &#34;38.2.0&#34;, &#34;check&#34;: &#34;2.6.2&#34;, &#34;html&#34;: &#34;4.1.1&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;}}, &#34;tests&#34;: {&#34;test/test_busqueda.py::test_busqueda_producto&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_busqueda.py::test_busqueda_producto&#34;, &#34;duration&#34;: &#34;00:00:09&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_busqueda.py::test_busqueda_producto&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:09&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;c0aca8620e997acdb8c6454c0e8f770c&amp;quot;)&amp;gt;\n\n    def test_busqueda_producto(driver):\n        # Abrir la p\u00e1gina de inventario\n        inventory_page = InventoryPage(driver)\n&amp;gt;       inventory_page.open()\n        ^^^^^^^^^^^^^^^^^^^\nE       AttributeError: &amp;#x27;InventoryPage&amp;#x27; object has no attribute &amp;#x27;open&amp;#x27;\n\ntest\\test_busqueda.py:7: AttributeError\n&#34;}], &#34;test/test_carrito.py::test_agregar_producto_al_carrito&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_carrito.py::test_agregar_producto_al_carrito&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_carrito.py::test_agregar_producto_al_carrito&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;306079c02a2a201937780b5d03f9c1b6&amp;quot;)&amp;gt;\n\n    @pytest.mark.usefixtures(&amp;quot;driver&amp;quot;)\n    def test_agregar_producto_al_carrito(driver):\n&amp;gt;       search = SearchPage(driver)\n                 ^^^^^^^^^^\nE       NameError: name &amp;#x27;SearchPage&amp;#x27; is not defined\n\ntest\\test_carrito.py:7: NameError\n&#34;}], &#34;test/test_checkoutProd.py::test_checkout&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_checkoutProd.py::test_checkout&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_checkoutProd.py::test_checkout&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;57c0881e7b228dcaaf23ed2278029c14&amp;quot;)&amp;gt;\n\n    @pytest.mark.usefixtures(&amp;quot;driver&amp;quot;)\n    def test_checkout(driver):\n        cart = CartPage(driver)\n&amp;gt;       cart.ir_al_carrito()\n        ^^^^^^^^^^^^^^^^^^\nE       AttributeError: &amp;#x27;CartPage&amp;#x27; object has no attribute &amp;#x27;ir_al_carrito&amp;#x27;\n\ntest\\test_checkoutProd.py:9: AttributeError\n&#34;}], &#34;test/test_checkoutProd_Neg.py::test_checkout_sin_productos&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_checkoutProd_Neg.py::test_checkout_sin_productos&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_checkoutProd_Neg.py::test_checkout_sin_productos&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;42247cbc588f57d0c767222d5be958c9&amp;quot;)&amp;gt;\n\n    @pytest.mark.usefixtures(&amp;quot;driver&amp;quot;)\n    def test_checkout_sin_productos(driver):\n        checkout = CheckoutPage(driver)\n&amp;gt;       checkout.ir_a_checkout()\n        ^^^^^^^^^^^^^^^^^^^^^^\nE       AttributeError: &amp;#x27;CheckoutPage&amp;#x27; object has no attribute &amp;#x27;ir_a_checkout&amp;#x27;\n\ntest\\test_checkoutProd_Neg.py:8: AttributeError\n&#34;}], &#34;test/test_login_page.py::test_login_parametrizado[standard_user-secret_sauce]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_login_page.py::test_login_parametrizado[standard_user-secret_sauce]&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_login_page.py::test_login_parametrizado[standard_user-secret_sauce]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;c901a2af996fd454c6ecea1e6041d39d&amp;quot;)&amp;gt;, usuario = &amp;#x27;standard_user&amp;#x27;, clave = &amp;#x27;secret_sauce&amp;#x27;\n\n    @pytest.mark.parametrize(&amp;quot;usuario,clave&amp;quot;, leer_datos_csv(&amp;quot;data/data_login.csv&amp;quot;))\n    def test_login_parametrizado(driver, usuario, clave):\n        login_page = LoginPage(driver)\n        login_page.open()\n&amp;gt;       login_page.Login(usuario, clave)  # usa tu m\u00e9todo actual con may\u00fascula\n        ^^^^^^^^^^^^^^^^\nE       AttributeError: &amp;#x27;LoginPage&amp;#x27; object has no attribute &amp;#x27;Login&amp;#x27;. Did you mean: &amp;#x27;login&amp;#x27;?\n\ntest\\test_login_page.py:15: AttributeError\n&#34;}], &#34;test/test_login_page.py::test_login_parametrizado[locked_out_user-secret_sauce]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_login_page.py::test_login_parametrizado[locked_out_user-secret_sauce]&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_login_page.py::test_login_parametrizado[locked_out_user-secret_sauce]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;8259e21da3308ffd4e438f7b55b88e44&amp;quot;)&amp;gt;, usuario = &amp;#x27;locked_out_user&amp;#x27;, clave = &amp;#x27;secret_sauce&amp;#x27;\n\n    @pytest.mark.parametrize(&amp;quot;usuario,clave&amp;quot;, leer_datos_csv(&amp;quot;data/data_login.csv&amp;quot;))\n    def test_login_parametrizado(driver, usuario, clave):\n        login_page = LoginPage(driver)\n        login_page.open()\n&amp;gt;       login_page.Login(usuario, clave)  # usa tu m\u00e9todo actual con may\u00fascula\n        ^^^^^^^^^^^^^^^^\nE       AttributeError: &amp;#x27;LoginPage&amp;#x27; object has no attribute &amp;#x27;Login&amp;#x27;. Did you mean: &amp;#x27;login&amp;#x27;?\n\ntest\\test_login_page.py:15: AttributeError\n&#34;}], &#34;test/test_login_page.py::test_login_parametrizado[usuario_malo-password_malo]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_login_page.py::test_login_parametrizado[usuario_malo-password_malo]&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_login_page.py::test_login_parametrizado[usuario_malo-password_malo]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;9442bee721f7a7744669f0db4969cd2c&amp;quot;)&amp;gt;, usuario = &amp;#x27;usuario_malo&amp;#x27;, clave = &amp;#x27;password_malo&amp;#x27;\n\n    @pytest.mark.parametrize(&amp;quot;usuario,clave&amp;quot;, leer_datos_csv(&amp;quot;data/data_login.csv&amp;quot;))\n    def test_login_parametrizado(driver, usuario, clave):\n        login_page = LoginPage(driver)\n        login_page.open()\n&amp;gt;       login_page.Login(usuario, clave)  # usa tu m\u00e9todo actual con may\u00fascula\n        ^^^^^^^^^^^^^^^^\nE       AttributeError: &amp;#x27;LoginPage&amp;#x27; object has no attribute &amp;#x27;Login&amp;#x27;. Did you mean: &amp;#x27;login&amp;#x27;?\n\ntest\\test_login_page.py:15: AttributeError\n&#34;}], &#34;test/test_login_page.py::test_login_parametrizado[error_user-secret_sauce]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_login_page.py::test_login_parametrizado[error_user-secret_sauce]&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_login_page.py::test_login_parametrizado[error_user-secret_sauce]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;946c0d543019727b47de0f6a9ec4e611&amp;quot;)&amp;gt;, usuario = &amp;#x27;error_user&amp;#x27;, clave = &amp;#x27;secret_sauce&amp;#x27;\n\n    @pytest.mark.parametrize(&amp;quot;usuario,clave&amp;quot;, leer_datos_csv(&amp;quot;data/data_login.csv&amp;quot;))\n    def test_login_parametrizado(driver, usuario, clave):\n        login_page = LoginPage(driver)\n        login_page.open()\n&amp;gt;       login_page.Login(usuario, clave)  # usa tu m\u00e9todo actual con may\u00fascula\n        ^^^^^^^^^^^^^^^^\nE       AttributeError: &amp;#x27;LoginPage&amp;#x27; object has no attribute &amp;#x27;Login&amp;#x27;. Did you mean: &amp;#x27;login&amp;#x27;?\n\ntest\\test_login_page.py:15: AttributeError\n&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;Reporte de pruebas - EntregaSELENIUM&#34;}"></div>
     <script>
       (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')

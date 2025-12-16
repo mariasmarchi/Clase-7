@@ -1,6 +1,7 @@
 import pytest
 import os
 from utils.helpers import get_driver
+import pytest_html
 
 @pytest.fixture
 def driver():
@@ -27,12 +28,16 @@ def pytest_runtest_makereport(item, call):
             driver.save_screenshot(ruta)
 
             # Adjuntar la captura al reporte HTML
-            if "pytest_html" in item.config.pluginmanager.list_name_plugin():
-                extra = getattr(rep, "extra", [])
-                rep.extra = extra + [pytest_html.extras.image(ruta)]
+            if hasattr(rep, "extra"):
+                rep.extra.append(pytest_html.extras.image(ruta))
+            else:
+                rep.extra = [pytest_html.extras.image(ruta)]
+
             print(f"\n📸 Screenshot guardado en: {ruta}")
 
-# Hook para agregar metadata al reporte HTML
-def pytest_configure(config):
-    config._metadata["Proyecto"] = "EntregaSELENIUM"
-    config._metadata["Autor"] = "Maria Smarchi"
+# Personalizar título y metadata del reporte HTML
+def pytest_html_report_title(report):
+    report.title = "Reporte de pruebas - EntregaSELENIUM"
+
+def pytest_html_results_summary(prefix, summary, postfix):
+    prefix.extend([f"Proyecto: EntregaSELENIUM", f"Autor: Maria Smarchi"])

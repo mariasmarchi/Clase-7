@@ -1,6 +1,6 @@
 import pytest
-from pages.cart_page import CartPage
-from pages.checkout_page import CheckoutPage
+from page.cart_page import CartPage
+from page.checkout_page import CheckoutPage
 
 #Checkout / compra simulada
 @pytest.mark.usefixtures("driver")

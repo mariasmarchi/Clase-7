@@ -1,6 +1,5 @@
 import pytest
-from pages.search_page import SearchPage
-from pages.cart_page import CartPage
+from page.cart_page import CartPage
 
 #añadir producto al carrito
 @pytest.mark.usefixtures("driver")
