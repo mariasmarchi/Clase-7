@@ -1,18 +1,22 @@
 import pytest
+import csv
 from page.login_page import LoginPage
-from data.data_login import CASOS_LOGIN
-from utils.example_csv import get_login_csv
-from utils.faker import get_login_faker
 
-@pytest.mark.parametrize("username, password, login_bool", get_login_faker())
-def test_login(driver, username, password, login_bool):
-    #crear objeto de la pagina de login
-    loginpage = LoginPage(driver)
-    loginpage.open()
-    loginpage.Login(username, password)
+# Función para leer el CSV
+def leer_datos_csv(path):
+    with open(path, newline='') as f:
+        return [(row["username"], row["password"]) for row in csv.DictReader(f)]
 
-    if login_bool:
-        assert "inventory.html" in driver.current_url
+# Parametrización usando data_login.csv
+@pytest.mark.parametrize("usuario,clave", leer_datos_csv("data/data_login.csv"))
+def test_login_parametrizado(driver, usuario, clave):
+    login_page = LoginPage(driver)
+    login_page.open()
+    login_page.Login(usuario, clave)  # usa tu método actual con mayúscula
+
+    if usuario == "standard_user" and clave == "secret_sauce":
+        # Caso positivo: debería entrar al inventario
+        assert "inventory" in driver.current_url
     else:
-        assert "inventory.html" not in driver.current_url
-   
+        # Caso negativo: debería mostrar mensaje de error
+        assert login_page.mensaje_error_visible()
