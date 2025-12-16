@@ -12,7 +12,7 @@ def leer_datos_csv(path):
 def test_login_parametrizado(driver, usuario, clave):
     login_page = LoginPage(driver)
     login_page.open()
-    login_page.Login(usuario, clave)  # usa tu método actual con mayúscula
+    login_page.login(usuario, clave)  # usa tu método actual con mayúscula
 
     if usuario == "standard_user" and clave == "secret_sauce":
         # Caso positivo: debería entrar al inventario

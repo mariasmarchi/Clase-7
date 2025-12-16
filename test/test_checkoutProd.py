@@ -6,7 +6,7 @@ from page.checkout_page import CheckoutPage
 @pytest.mark.usefixtures("driver")
 def test_checkout(driver):
     cart = CartPage(driver)
-    cart.ir_al_carrito()
+    cart.open_cart()
     cart.ir_a_checkout()
 
     checkout = CheckoutPage(driver)
