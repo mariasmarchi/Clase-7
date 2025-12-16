@@ -8,7 +8,6 @@ class CheckoutPage:
         self.postal_code = (By.ID, "postal-code")
         self.continue_button = (By.ID, "continue")
         self.finish_button = (By.ID, "finish")
-        self.confirmation_message = (By.CLASS_NAME, "complete-header")
 
     def completar_datos_envio(self, nombre, apellido, codigo_postal):
         self.driver.find_element(*self.first_name).send_keys(nombre)
@@ -20,4 +19,4 @@ class CheckoutPage:
         self.driver.find_element(*self.finish_button).click()
 
     def verificar_confirmacion(self):
-        return "THANK YOU FOR YOUR ORDER" in self.driver.find_element(*self.confirmation_message).text
+        return "Thank you for your order!" in self.driver.page_source

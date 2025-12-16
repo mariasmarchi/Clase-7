@@ -1,22 +1,22 @@
 import pytest
-import csv
 from page.login_page import LoginPage
+from utils.helpers import leer_datos_csv
 
-# Función para leer el CSV
-def leer_datos_csv(path):
-    with open(path, newline='') as f:
-        return [(row["username"], row["password"]) for row in csv.DictReader(f)]
-
-# Parametrización usando data_login.csv
+# Nota: este test parametriza el login con datos del CSV
 @pytest.mark.parametrize("usuario,clave", leer_datos_csv("data/data_login.csv"))
 def test_login_parametrizado(driver, usuario, clave):
     login_page = LoginPage(driver)
-    login_page.open()
-    login_page.login(usuario, clave)  # usa tu método actual con mayúscula
 
+    # Paso 1: Abrir la página de login
+    login_page.open()
+
+    # Paso 2: Ingresar credenciales desde el CSV
+    login_page.login(usuario, clave)
+
+    # Paso 3: Validar resultado según credenciales
     if usuario == "standard_user" and clave == "secret_sauce":
-        # Caso positivo: debería entrar al inventario
-        assert "inventory" in driver.current_url
+        # Login exitoso → debe entrar al inventario
+        assert login_page.verificar_login_exitoso()
     else:
-        # Caso negativo: debería mostrar mensaje de error
-        assert login_page.mensaje_error_visible()
+        # Login fallido → debe mostrar mensaje de error
+        assert login_page.verificar_login_fallido()
