@@ -1,9 +1,13 @@
 import pytest
+from page.login_page import LoginPage
 from page.inventory_page import InventoryPage
 
 def test_busqueda_producto(driver):
-    # Nota: este test valida que un producto específico esté visible en el inventario
-    inventory_page = InventoryPage(driver)
+    # Paso 1: Login inicial
+    login_page = LoginPage(driver)
+    login_page.open()
+    login_page.login("standard_user", "secret_sauce")
 
-    # Verificamos que el producto "Sauce Labs Backpack" aparece en la lista
+    # Paso 2: Validar que el producto esté visible en inventario
+    inventory_page = InventoryPage(driver)
     assert inventory_page.verificar_producto_visible("Sauce Labs Backpack")
